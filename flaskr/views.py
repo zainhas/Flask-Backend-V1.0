@@ -1,7 +1,7 @@
 from flaskr import db, api, app
 from flask_restful import Resource, marshal_with, fields
 from flaskr.models import SoundData
-from flask import Blueprint, request, redirect, url_for, abort, jsonify
+from flask import request, redirect, url_for, abort, jsonify,send_from_directory
 
 
 #Sound MetaDeta Return
@@ -29,6 +29,10 @@ class sound_metadata(Resource):
 		db.session.add(new_sound_data)
 		db.session.commit()
 		return jsonify({}), 201, {'Location': new_sound_data.get_url()}
+
+@app.route('/api/v1_0/file/<string:path>')
+def serve_file(path):
+    return send_from_directory('../uploads', path)
 
 class sound_file(Resource):
 	def get(self,id):
