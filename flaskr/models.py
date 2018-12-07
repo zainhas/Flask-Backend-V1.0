@@ -17,15 +17,20 @@ class SoundData(db.Model,object):
         self.date = date
 
     def __repr__(self):
-        return '<id: {}, user: {}, filename: {}>'.format(self.id, self.user, self.filename)
+        return '<id: {}, user: {}, filename: {}>'.format(self.id, self.user, self.file_uri)
+
+    def get_url(self):
+        return url_for()
 
     def export_data(self):
         return {
-            'id': self.id,
             'user': self.user,
-            'file_uri': self.file_uri
+            'file_uri': self.file_uri,
+            'length' : self.length,
+            'date' : self.date
         }
-    #Called from Views
+
+    #Called from Views (Used when marshal with is not needed)
     def import_metadata(self, request):
         try:
             json_data = request.get_json()
