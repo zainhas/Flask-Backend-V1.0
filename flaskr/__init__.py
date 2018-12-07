@@ -10,7 +10,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3' #Connect to sqlit
 db = SQLAlchemy(app)
 
 
-
 if __name__ == '__main__':
 	db.create_all()
 	app.run(debug=True) #Remove Debug for production run
