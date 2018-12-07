@@ -1,5 +1,5 @@
 from flask import Flask, request, send_from_directory, abort
-from flask_restful import Resource, Api, fields, marshal_with
+from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -12,4 +12,5 @@ db = SQLAlchemy(app)
 
 
 if __name__ == '__main__':
-    app.run(debug=True) #Remove Debug for production run
+	db.create_all()
+	app.run(debug=True) #Remove Debug for production run

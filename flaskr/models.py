@@ -4,12 +4,15 @@ from flaskr import db
 
 
 class SoundData(db.Model,object):
-    GroupID = 0
+    id = db.Column(db.Integer, primary_key=True)
+    user = db.Column(db.String, unique=False, nullable=False)
+    file_uri = db.Column(db.String, unique=False, nullable=True)
+    length = db.Column(db.Integer, unique=False, nullable=True)
+    data = db.Column(db.Date, unique=False, nullable=True)
 
     def __init__(self, user = None, filename = None, length=None, date=None):
-        self.id = id
         self.user = user
-        self.filename = filename
+        self.file_uri = filename
         self.length = length
         self.date = date
 
@@ -20,9 +23,9 @@ class SoundData(db.Model,object):
         return {
             'id': self.id,
             'user': self.user,
-            'filename': self.filename
+            'file_uri': self.file_uri
         }
-
+    #Called from Views
     def import_metadata(self, request):
         try:
             json_data = request.get_json()
