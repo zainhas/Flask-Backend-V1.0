@@ -35,10 +35,17 @@ class sound_file(Resource):
 		pass
 
 	def post(self,id):
-		data = SoundData.query.get_or_404(id)
-		if data:
-			content = request.data #Incoming Data as String
-
+		sound_file = SoundData.query.get_or_404(id)
+		if sound_file:
+			sounddata = request.data #Incoming Data as String
+			fn = 'uploads/StethoData_%s_%s.dat' %(request.date, id)
+			with open(fn, 'wb') as fp:
+				fp.write(sounddata) #Write teh sound data
+			sound_file.file_uri = fn
+			db.session.add(sound_file) #Update the SQL Data field for file URI
+			db.session.commit()
+			return ('', 204) #Return No Content To Return
+		abort(404)
 
 #Flask-Restful Api add URL Redirect
 api.add_resource(sound_get_all, '/api/v1_0/soundmetadatas')
