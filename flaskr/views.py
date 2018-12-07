@@ -3,13 +3,24 @@ from flask_restful import Resource, marshal_with, fields
 from flaskr.models import SoundData
 from flask import Blueprint, request, redirect, url_for, abort, jsonify
 
+
+#Sound MetaDeta Return
+sound_resource = {
+	'id' : fields.Integer,
+	'user': fields.String,
+	'file_uri':fields.String,
+	'length': fields.Integer,
+	'date': fields.DateTime
+}
+
 class sound_get_all(Resource):
 	def get(self): #Get all sound data files in server
 		pass
 
 class sound_metadata(Resource):
-	def get(self): #get single metadata
-		pass
+	@marshal_with(sound_resource)
+	def get(self, id): #get single metadata, then return marshalled object
+		return SoundData.query.get_or_404(id)
 
 	def post(self):
 		new_sound_data = SoundData()

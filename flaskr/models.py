@@ -8,7 +8,7 @@ class SoundData(db.Model,object):
     user = db.Column(db.String, unique=False, nullable=False)
     file_uri = db.Column(db.String, unique=False, nullable=True)
     length = db.Column(db.Integer, unique=False, nullable=True)
-    data = db.Column(db.Date, unique=False, nullable=True)
+    data = db.Column(db.DateTime, unique=False, nullable=True)
 
     def __init__(self, user = None, filename = None, length=None, date=None):
         self.user = user
@@ -22,6 +22,7 @@ class SoundData(db.Model,object):
     def get_url(self):
         return url_for()
 
+    #Called from Views(not needed with @marshal_with)
     def export_data(self):
         return {
             'user': self.user,
@@ -30,7 +31,7 @@ class SoundData(db.Model,object):
             'date' : self.date
         }
 
-    #Called from Views (Used when marshal with is not needed)
+    #Called from Views(not needed with @marshal_with)
     def import_metadata(self, request):
         try:
             json_data = request.get_json()
