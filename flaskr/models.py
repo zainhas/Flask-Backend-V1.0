@@ -1,7 +1,6 @@
 from flask import request, app, flash, redirect, url_for, render_template, abort, json
 from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy(app)
+from flaskr import db
 
 
 class SoundData(db.Model,object):
