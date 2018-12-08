@@ -41,6 +41,12 @@ class delete_sound_files(Resource):
 	def get(self):
 		pass
 
+class analyze_sound_file(Resource):
+	def get(self, id):
+		#get sound file uri
+		#send data to ml function
+		#when processing is finished return
+		pass
 
 class sound_file(Resource):
 	def get(self,id):
@@ -67,3 +73,4 @@ api.add_resource(sound_file, '/api/v1_0/sounddata/<int:id>')
 api.add_resource(serve_file, '/api/v1_0/file/<string:path>')
 api.add_resource(delete_sound_file, '/api/v1_0/delete/<int:id>')
 api.add_resource(delete_sound_files, '/api/v1_0/deleteall')
+api.add_resource(analyze_sound_file, '/api/v1_0/analyze/<int:id>')

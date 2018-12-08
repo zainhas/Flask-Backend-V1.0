@@ -9,6 +9,7 @@ api = Api(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3' #Connect to sqlite database
 db = SQLAlchemy(app)
 
+#Error Handling
 
 if __name__ == '__main__':
 	db.create_all()
