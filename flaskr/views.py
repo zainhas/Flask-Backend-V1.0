@@ -27,7 +27,7 @@ class sound_metadata(Resource):
 		new_sound_data.import_metadata(request) #Pass flask request object to model
 		db.session.add(new_sound_data)
 		db.session.commit()
-		return jsonify({}), 201, {'Data': new_sound_data.get_date()}
+		return jsonify({}), 201, {'Data': str(new_sound_data.get_date())}
 
 class serve_file(Resource):
 	def get(self, path):
@@ -40,6 +40,15 @@ class delete_sound_file(Resource):
 class delete_sound_files(Resource):
 	def get(self):
 		pass
+
+class test_api(Resource):
+	@marshal_with(sound_resource, envelope=sound_resource)
+	def get(self):
+		new_sound_data = SoundData()
+		new_sound_data.import_metadata(request) #Pass flask request object to model
+		db.session.add(new_sound_data)
+		db.session.commit()
+		return new_sound_data
 
 class sound_file(Resource):
 	def get(self,id):
@@ -75,3 +84,4 @@ api.add_resource(serve_file, '/api/v1_0/file/<string:path>')
 api.add_resource(delete_sound_file, '/api/v1_0/delete/<int:id>')
 api.add_resource(delete_sound_files, '/api/v1_0/deleteall')
 api.add_resource(analyze_sound_file, '/api/v1_0/analyze/<int:id>')
+api.add_resource(test_api,'/api/v1_0/test')
