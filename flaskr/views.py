@@ -7,7 +7,7 @@ from flask import request, redirect, url_for, abort, jsonify,send_from_directory
 #Sound MetaDeta Return
 sound_resource = {
 	'id' : fields.Integer,
-	'user': fields.String,
+	'name': fields.String,
 	'file_uri':fields.String,
 	'length': fields.Integer,
 	'date': fields.DateTime
@@ -22,13 +22,12 @@ class sound_metadata(Resource):
 	def get(self, id): #get single metadata, then return marshalled object
 		return SoundData.query.get_or_404(id)
 
-	@marshal_with(sound_resource, envelope=sound_resource)
 	def post(self):
 		new_sound_data = SoundData()
 		new_sound_data.import_metadata(request) #Pass flask request object to model
 		db.session.add(new_sound_data)
 		db.session.commit()
-		return jsonify({}), 201, {'Location': new_sound_data.get_url()}
+		return jsonify({}), 201, {'Data': new_sound_data.get_date()}
 
 class serve_file(Resource):
 	def get(self, path):
@@ -36,16 +35,10 @@ class serve_file(Resource):
 
 class delete_sound_file(Resource):
 	def get(self, id):
+		pass
 
 class delete_sound_files(Resource):
 	def get(self):
-		pass
-
-class analyze_sound_file(Resource):
-	def get(self, id):
-		#get sound file uri
-		#send data to ml function
-		#when processing is finished return
 		pass
 
 class sound_file(Resource):
@@ -65,6 +58,14 @@ class sound_file(Resource):
 			db.session.commit()
 			return ('', 204) #Return No Content To Return
 		abort(404)
+
+#Analysis API's
+class analyze_sound_file(Resource):
+	def get(self, id):
+		#get sound file uri
+		#send data to ml function
+		#when processing is finished return
+		pass
 
 #Flask-Restful Api add URL Redirect
 api.add_resource(sound_get_all, '/api/v1_0/soundmetadatas')
