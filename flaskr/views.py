@@ -30,9 +30,9 @@ class sound_metadata(Resource):
 		db.session.commit()
 		return jsonify({}), 201, {'Location': new_sound_data.get_url()}
 
-@app.route('/api/v1_0/file/<string:path>')
-def serve_file(path):
-    return send_from_directory('../uploads', path)
+class serve_file(Resource):
+	def get(self, path):
+		return send_from_directory('../uploads', path)
 
 class sound_file(Resource):
 	def get(self,id):
@@ -56,3 +56,4 @@ class sound_file(Resource):
 api.add_resource(sound_get_all, '/api/v1_0/soundmetadatas')
 api.add_resource(sound_metadata, '/api/v1_0/soundmetadata/<int:id>')
 api.add_resource(sound_file, '/api/v1_0/sounddata/<int:id>')
+api.add_resource(serve_file, '/api/v1_0/file/<string:path>')
