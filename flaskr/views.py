@@ -34,6 +34,14 @@ class serve_file(Resource):
 	def get(self, path):
 		return send_from_directory('../uploads', path)
 
+class delete_sound_file(Resource):
+	def get(self, id):
+
+class delete_sound_files(Resource):
+	def get(self):
+		pass
+
+
 class sound_file(Resource):
 	def get(self,id):
 		sound_file = SoundData.query.get_or_404(id)
@@ -57,3 +65,5 @@ api.add_resource(sound_get_all, '/api/v1_0/soundmetadatas')
 api.add_resource(sound_metadata, '/api/v1_0/soundmetadata/<int:id>')
 api.add_resource(sound_file, '/api/v1_0/sounddata/<int:id>')
 api.add_resource(serve_file, '/api/v1_0/file/<string:path>')
+api.add_resource(delete_sound_file, '/api/v1_0/delete/<int:id>')
+api.add_resource(delete_sound_files, '/api/v1_0/deleteall')
