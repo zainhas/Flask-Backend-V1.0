@@ -36,15 +36,16 @@ def serve_file(path):
 
 class sound_file(Resource):
 	def get(self,id):
-		pass
+		sound_file = SoundData.query.get_or_404(id)
+		return redirect(url_for('serve_file', path=sound_file.file_uri))
 
 	def post(self,id):
 		sound_file = SoundData.query.get_or_404(id)
 		if sound_file:
 			sounddata = request.data #Incoming Data as String
-			fn = 'uploads/StethoData_%s_%s.dat' %(request.date, id)
+			fn = 'StethoData_%s_%s.dat' %(request.date, id)
 			with open(fn, 'wb') as fp:
-				fp.write(sounddata) #Write teh sound data
+				fp.write(sounddata) #Write the sound data
 			sound_file.file_uri = fn
 			db.session.add(sound_file) #Update the SQL Data field for file URI
 			db.session.commit()
