@@ -58,7 +58,7 @@ def test():
 	print 'Created Example'
 	db.session.add(new_sound_data)
 	db.session.commit()
-	return make_response(jsonify(new_sound_data))
+	return jsonify(new_sound_data.export_data())
 
 class sound_file(Resource):
 	def get(self,id):
