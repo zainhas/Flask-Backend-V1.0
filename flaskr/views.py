@@ -1,15 +1,12 @@
 from flask import request, redirect, url_for, abort, jsonify,send_from_directory, Blueprint, make_response
-from flask_restful import Resource, marshal_with, fields
+from flask_restful import Resource, marshal_with, fields, Api
 from flaskr.models import SoundData
 import datetime
-from flaskr import db
-from flask_restful import Api
 
+#Create Blueprint
 sound_api_Blueprint = Blueprint('sound_api', __name__)
-
-
-#Error Handling
-api = Api(sound_api_Blueprint)
+from flaskr import db
+api = Api(sound_api_Blueprint) #Create Flask Api
 
 #Sound MetaDeta Return
 sound_resource = {
@@ -48,17 +45,12 @@ class delete_sound_files(Resource):
 	def get(self):
 		pass
 
-#class test_api(Resource):
-#	@marshal_with(sound_resource, envelope=sound_resource)
-
-@sound_api_Blueprint.route('/test',methods = ['GET'])
-def test():
-	# Pass flask request object to model
-	new_sound_data = SoundData(name="Test1", file_uri="SoundPratik", length=1234, date=datetime.datetime.now())
-	print 'Created Example'
-	db.session.add(new_sound_data)
-	db.session.commit()
-	return jsonify(new_sound_data.export_data())
+class test_api(Resource):
+	def get(self):
+		new_sound_data = SoundData(name="Test1", file_uri="SoundPratik", length=1234, date=datetime.datetime.now())
+		db.session.add(new_sound_data)
+		db.session.commit()
+		return jsonify(new_sound_data.export_data())
 
 class sound_file(Resource):
 	def get(self,id):
@@ -94,4 +86,4 @@ api.add_resource(serve_file, '/api/v1_0/file/<string:path>')
 api.add_resource(delete_sound_file, '/api/v1_0/delete/<int:id>')
 api.add_resource(delete_sound_files, '/api/v1_0/deleteall')
 api.add_resource(analyze_sound_file, '/api/v1_0/analyze/<int:id>')
-#api.add_resource(test_api,'/test')
+api.add_resource(test_api,'/test')

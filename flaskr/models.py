@@ -1,6 +1,6 @@
 from flaskr import db
+from flask_restful import fields
 import datetime
-
 
 class SoundData(db.Model,object):
     id = db.Column(db.Integer, primary_key=True)
@@ -15,7 +15,6 @@ class SoundData(db.Model,object):
     def get_date(self):
         return self.date
 
-    #Called from Views(not needed with @marshal_with)
     def export_data(self):
         return {
             'id':self.id,
@@ -39,3 +38,5 @@ class SoundData(db.Model,object):
                 self.date = datetime.datetime.now() #datetimeobject
         except KeyError as e:
             print "Key not found in metadata"
+
+#Marshal with return
