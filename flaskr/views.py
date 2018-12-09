@@ -4,6 +4,7 @@ from flask_restful import Resource, fields, Api
 from flaskr.models import SoundData
 from flaskr import db
 import datetime
+import os
 
 sound_api_Blueprint = Blueprint('sound_api', __name__)
 api = Api(sound_api_Blueprint) #Create Flask Api
@@ -35,20 +36,30 @@ class sound_metadata(Resource):
 		return jsonify({}), 201, {'Date': str(new_sound_data.get_date())}
 
 class serve_file(Resource):
-	def get(self, path):
-		return send_from_directory('../uploads', path)
+	def get(self, filename):
+		path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
+		return send_from_directory(path, filename)
 
 class delete_sound_file(Resource):
 	def get(self, id):
-		pass
+		sounddata = SoundData.query.get_or_404(id)
+		#Delete File
+		path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
+		if(os.path.exists(os.path.join(path, sounddata.file_uri))):
+			os.remove(os.path.join(path, sounddata.file_uri))
+		#Remove From database
+		db.session.delete(sounddata)
+		db.session.commit()
+
 
 class delete_sound_files(Resource):
 	def get(self):
-		pass
+		db.drop_all()
+		db.create_all()
 
 class test_api(Resource):
 	def get(self):
-		new_sound_data = SoundData(name="Test1", file_uri="SoundPratik", length=1234, date=datetime.datetime.now())
+		new_sound_data = SoundData(name="Test1", file_uri="SoundPratik.dat", length=1234, date=datetime.datetime.now())
 		db.session.add(new_sound_data)
 		db.session.commit()
 		return jsonify(new_sound_data.export_data())
@@ -56,7 +67,7 @@ class test_api(Resource):
 class sound_file(Resource):
 	def get(self,id):
 		sound_file = SoundData.query.get_or_404(id)
-		return redirect(url_for('serve_file', path=sound_file.file_uri, _method = "GET"))
+		return redirect(url_for('serve_file', filename=sound_file.file_uri, _method = "GET"))
 
 	def post(self,id):
 		sound_file = SoundData.query.get_or_404(id)
@@ -83,7 +94,7 @@ class analyze_sound_file(Resource):
 api.add_resource(sound_get_all, '/api/v1_0/soundmetadatas')
 api.add_resource(sound_metadata, '/api/v1_0/soundmetadata/<int:id>')
 api.add_resource(sound_file, '/api/v1_0/sounddata/<int:id>')
-api.add_resource(serve_file, '/api/v1_0/file/<string:path>')
+api.add_resource(serve_file, '/api/v1_0/file/<string:filename>')
 api.add_resource(delete_sound_file, '/api/v1_0/delete/<int:id>')
 api.add_resource(delete_sound_files, '/api/v1_0/deleteall')
 api.add_resource(analyze_sound_file, '/api/v1_0/analyze/<int:id>')
