@@ -1,5 +1,5 @@
 from flask import request, redirect, url_for, abort, jsonify,send_from_directory, Blueprint, make_response
-from flask_restful import Resource, marshal_with, fields, Api
+from flask_restful import Resource, fields, Api
 from flaskr.models import SoundData
 import datetime
 
@@ -19,19 +19,19 @@ sound_resource = {
 
 class sound_get_all(Resource):
 	def get(self): #Get all sound data files in server
-		pass
+		return jsonify({'Sound Datas': [jsonify(SoundData.query.get_or_404(Sound.id).export_data()) \
+		for Sound in SoundData.query.all()]})
 
 class sound_metadata(Resource):
-	@marshal_with(sound_resource, envelope=sound_resource)
 	def get(self, id): #get single metadata, then return marshalled object
-		return SoundData.query.get_or_404(id)
+		return jsonify(SoundData.query.get_or_404(id).export_data())
 
 	def post(self):
 		new_sound_data = SoundData()
 		new_sound_data.import_metadata(request) #Pass flask request object to model
 		db.session.add(new_sound_data)
 		db.session.commit()
-		return jsonify({}), 201, {'Data': str(new_sound_data.get_date())}
+		return jsonify({}), 201, {'Date': str(new_sound_data.get_date())}
 
 class serve_file(Resource):
 	def get(self, path):
@@ -86,4 +86,4 @@ api.add_resource(serve_file, '/api/v1_0/file/<string:path>')
 api.add_resource(delete_sound_file, '/api/v1_0/delete/<int:id>')
 api.add_resource(delete_sound_files, '/api/v1_0/deleteall')
 api.add_resource(analyze_sound_file, '/api/v1_0/analyze/<int:id>')
-api.add_resource(test_api,'/test')
+api.add_resource(test_api,'/api/v1_0/test')
