@@ -19,7 +19,7 @@ sound_resource = {
 
 class sound_get_all(Resource):
 	def get(self): #Get all sound data files in server
-		return jsonify({'Sound Datas': [jsonify(SoundData.query.get_or_404(Sound.id).export_data()) \
+		return jsonify({'Sound Datas': [SoundData.query.get_or_404(Sound.id).export_data() \
 		for Sound in SoundData.query.all()]})
 
 class sound_metadata(Resource):
@@ -55,7 +55,7 @@ class test_api(Resource):
 class sound_file(Resource):
 	def get(self,id):
 		sound_file = SoundData.query.get_or_404(id)
-		return redirect(url_for('serve_file', path=sound_file.file_uri))
+		return redirect(url_for('serve_file', path=sound_file.file_uri, _method = "GET"))
 
 	def post(self,id):
 		sound_file = SoundData.query.get_or_404(id)

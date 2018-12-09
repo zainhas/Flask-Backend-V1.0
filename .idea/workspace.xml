@@ -14,7 +14,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Flask_Backend_V1_0$FlaskBackendV1_0.coverage" NAME="FlaskBackendV1_0 Coverage Results" MODIFIED="1544324960604" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Flask_Backend_V1_0$FlaskBackendV1_0.coverage" NAME="FlaskBackendV1_0 Coverage Results" MODIFIED="1544325793618" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="-156844688">
@@ -56,12 +56,12 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="374" />
+          <entry key="py" value="446" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="374" />
+          <entry key="Python" value="446" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -106,13 +106,13 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/flaskr/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="484">
-              <caret line="88" column="43" lean-forward="true" selection-start-line="88" selection-start-column="43" selection-end-line="88" selection-end-column="43" />
+            <state relative-caret-position="315">
+              <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
               <folding>
                 <element signature="e#0#106#0" expanded="true" />
-                <marker date="1544324958096" expanded="true" signature="555:745" ph="..." />
-                <marker date="1544324958096" expanded="true" signature="571:607" ph="..." />
-                <marker date="1544324958096" expanded="true" signature="1411:1641" ph="..." />
+                <marker date="1544325790184" expanded="true" signature="555:736" ph="..." />
+                <marker date="1544325790184" expanded="true" signature="571:607" ph="..." />
+                <marker date="1544325790184" expanded="true" signature="1402:1632" ph="..." />
               </folding>
             </state>
           </provider>
@@ -136,6 +136,7 @@
       <find>sound_data</find>
       <find>user</find>
       <find>api</find>
+      <find>url_for</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -243,15 +244,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="953" y="0" width="974" height="1047" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.03837953" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.078774616" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.27735645" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.28008753" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3954496" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -309,13 +310,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/flaskr/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="484">
-          <caret line="88" column="43" lean-forward="true" selection-start-line="88" selection-start-column="43" selection-end-line="88" selection-end-column="43" />
+        <state relative-caret-position="315">
+          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
           <folding>
             <element signature="e#0#106#0" expanded="true" />
-            <marker date="1544324958096" expanded="true" signature="555:745" ph="..." />
-            <marker date="1544324958096" expanded="true" signature="571:607" ph="..." />
-            <marker date="1544324958096" expanded="true" signature="1411:1641" ph="..." />
+            <marker date="1544325790184" expanded="true" signature="555:736" ph="..." />
+            <marker date="1544325790184" expanded="true" signature="571:607" ph="..." />
+            <marker date="1544325790184" expanded="true" signature="1402:1632" ph="..." />
           </folding>
         </state>
       </provider>
