@@ -1,23 +1,15 @@
 #Create Blueprint
 from flask import request, redirect, url_for, abort, jsonify,send_from_directory, Blueprint
-from flask_restful import Resource, fields, Api
+from flask_restful import Resource, Api
 from flaskr.models import SoundData
 from flaskr import db
-import datetime
 import os
+import flaskr.test_rest as tests
 
 sound_api_Blueprint = Blueprint('sound_api', __name__)
 api = Api(sound_api_Blueprint) #Create Flask Api
 db.create_all()
 
-#Sound MetaDeta Return
-sound_resource = {
-	'id' : fields.Integer,
-	'name': fields.String,
-	'file_uri':fields.String,
-	'length': fields.Integer,
-	'date': fields.DateTime
-}
 
 class sound_get_all(Resource):
 	def get(self): #Get all sound data files in server
@@ -54,15 +46,16 @@ class delete_sound_file(Resource):
 
 class delete_sound_files(Resource):
 	def get(self):
-		db.drop_all()
-		db.create_all()
-
-class test_api(Resource):
-	def get(self):
-		new_sound_data = SoundData(name="Test1", file_uri="SoundPratik.dat", length=1234, date=datetime.datetime.now())
-		db.session.add(new_sound_data)
-		db.session.commit()
-		return jsonify(new_sound_data.export_data())
+		#Path for uploads
+		path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
+		#Delete all Files
+		for Sound in SoundData.query.all():
+			snddata = SoundData.query.get_or_404(Sound.id) #Get sound object
+			if (os.path.exists(os.path.join(path, snddata.file_uri))):
+				os.remove(os.path.join(path, snddata.file_uri))
+			# Remove From database
+			db.session.delete(snddata)
+			db.session.commit()
 
 class sound_file(Resource):
 	def get(self,id):
@@ -98,4 +91,6 @@ api.add_resource(serve_file, '/api/v1_0/file/<string:filename>')
 api.add_resource(delete_sound_file, '/api/v1_0/delete/<int:id>')
 api.add_resource(delete_sound_files, '/api/v1_0/deleteall')
 api.add_resource(analyze_sound_file, '/api/v1_0/analyze/<int:id>')
-api.add_resource(test_api,'/api/v1_0/test')
+
+#Test APi
+api.add_resource(tests.test_api,'/api/v1_0/test')

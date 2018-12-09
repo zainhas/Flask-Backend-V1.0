@@ -1,4 +1,5 @@
 from flaskr import db
+from flask_restful import fields
 import datetime
 
 
@@ -40,3 +41,11 @@ class SoundData(db.Model,object):
             print "Key not found in metadata"
 
 #Marshal with return
+#Sound MetaDeta Return
+sound_resource = {
+	'id' : fields.Integer,
+	'name': fields.String,
+	'file_uri':fields.String,
+	'length': fields.Integer,
+	'date': fields.DateTime
+}
