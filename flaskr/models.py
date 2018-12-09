@@ -1,6 +1,6 @@
 from flaskr import db
-from flask_restful import fields
 import datetime
+
 
 class SoundData(db.Model,object):
     id = db.Column(db.Integer, primary_key=True)

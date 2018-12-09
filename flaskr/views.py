@@ -1,12 +1,13 @@
-from flask import request, redirect, url_for, abort, jsonify,send_from_directory, Blueprint, make_response
+#Create Blueprint
+from flask import request, redirect, url_for, abort, jsonify,send_from_directory, Blueprint
 from flask_restful import Resource, fields, Api
 from flaskr.models import SoundData
+from flaskr import db
 import datetime
 
-#Create Blueprint
 sound_api_Blueprint = Blueprint('sound_api', __name__)
-from flaskr import db
 api = Api(sound_api_Blueprint) #Create Flask Api
+db.create_all()
 
 #Sound MetaDeta Return
 sound_resource = {
