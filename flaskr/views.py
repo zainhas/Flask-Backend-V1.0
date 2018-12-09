@@ -43,24 +43,18 @@ class delete_sound_file(Resource):
 		db.session.delete(sounddata)
 		db.session.commit()
 
-
 class delete_sound_files(Resource):
 	def get(self):
 		#Path for uploads
-		path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
+		d1 = delete_sound_file()
 		#Delete all Files
 		for Sound in SoundData.query.all():
-			snddata = SoundData.query.get_or_404(Sound.id) #Get sound object
-			if (os.path.exists(os.path.join(path, snddata.file_uri))):
-				os.remove(os.path.join(path, snddata.file_uri))
-			# Remove From database
-			db.session.delete(snddata)
-			db.session.commit()
+			d1.get(Sound.id)
 
 class sound_file(Resource):
 	def get(self,id):
 		sound_file = SoundData.query.get_or_404(id)
-		return redirect(url_for('serve_file', filename=sound_file.file_uri, _method = "GET"))
+		return url_for('serve_file', filename=sound_file.file_uri, _method = "GET")
 
 	def post(self,id):
 		sound_file = SoundData.query.get_or_404(id)
@@ -93,4 +87,4 @@ api.add_resource(delete_sound_files, '/api/v1_0/deleteall')
 api.add_resource(analyze_sound_file, '/api/v1_0/analyze/<int:id>')
 
 #Test APi
-api.add_resource(tests.test_api,'/api/v1_0/test')
+api.add_resource(tests.test_add_metadata,'/api/v1_0/test')
