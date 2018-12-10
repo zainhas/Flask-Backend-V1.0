@@ -20,7 +20,7 @@ class SoundData(db.Model,object):
 		return {
 			'id':self.id,
 			'name': self.name,
-			'file_uri': self.file_uri,
+			'fileuri': self.file_uri,
 			'length' : self.length,
 			'date' : str(self.date)
 		}
