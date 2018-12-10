@@ -1,5 +1,5 @@
 #Create Blueprint
-from flask import request, redirect, url_for, abort, jsonify,send_from_directory, Blueprint
+from flask import request, redirect, url_for, abort, jsonify,send_from_directory, Blueprint, json
 from flask_restful import Resource, Api
 from flaskr.models import SoundData
 from flaskr import db
@@ -10,7 +10,6 @@ sound_api_Blueprint = Blueprint('sound_api', __name__)
 api = Api(sound_api_Blueprint) #Create Flask Api
 db.create_all()
 
-
 class sound_get_all(Resource):
 	def get(self): #Get all sound data files in server
 		return jsonify({'Sound Datas': [SoundData.query.get_or_404(Sound.id).export_data() \
@@ -20,12 +19,12 @@ class sound_metadata(Resource):
 	def get(self, id): #get single metadata, then return marshalled object
 		return jsonify(SoundData.query.get_or_404(id).export_data())
 
-	def post(self):
+	def post(self, id):
 		new_sound_data = SoundData()
 		new_sound_data.import_metadata(request) #Pass flask request object to model
 		db.session.add(new_sound_data)
 		db.session.commit()
-		return jsonify({}), 201, {'Date': str(new_sound_data.get_date())}
+		return json.dumps({'Date': str(new_sound_data.get_date())}), 201
 
 class serve_file(Resource):
 	def get(self, filename):
@@ -53,17 +52,19 @@ class delete_sound_files(Resource):
 
 class sound_file(Resource):
 	def get(self,id):
+		servefile = serve_file()
 		sound_file = SoundData.query.get_or_404(id)
-		return url_for('serve_file', filename=sound_file.file_uri, _method = "GET")
+		return servefile.get(sound_file.file_uri) #get the soundfile
 
 	def post(self,id):
 		sound_file = SoundData.query.get_or_404(id)
 		if sound_file:
 			sounddata = request.data #Incoming Data as String
-			fn = 'StethoData_%s_%s.dat' %(request.date, id)
-			with open(fn, 'wb') as fp:
+			path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
+			filename = 'StethoData_%s_%s.dat' %(request.date, id)
+			with open(os.path.join(path, filename), 'wb') as fp:
 				fp.write(sounddata) #Write the sound data
-			sound_file.file_uri = fn
+			sound_file.file_uri = filename
 			db.session.add(sound_file) #Update the SQL Data field for file URI
 			db.session.commit()
 			return ('', 204) #Return No Content To Return
