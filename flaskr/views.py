@@ -36,9 +36,10 @@ class delete_sound_file(Resource):
 		sounddata = SoundData.query.get_or_404(id)
 		#Delete File
 		path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
-		if(os.path.exists(os.path.join(path, sounddata.file_uri))):
-			os.remove(os.path.join(path, sounddata.file_uri))
-		#Remove From database
+		if(sounddata.file_uri != None):
+			if(os.path.exists(os.path.join(path, sounddata.file_uri))):
+				os.remove(os.path.join(path, sounddata.file_uri))
+			#Remove From database
 		db.session.delete(sounddata)
 		db.session.commit()
 
