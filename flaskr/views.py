@@ -13,7 +13,7 @@ db.create_all()
 class sound_get_all(Resource):
 	def get(self): #Get all sound data files in server
 		return jsonify({'Sound Datas': [SoundData.query.get_or_404(Sound.id).export_data() \
-		for Sound in SoundData.query.all()]})
+										for Sound in SoundData.query.all()]})
 
 class sound_metadata(Resource):
 	def get(self, id): #get single metadata, then return marshalled object
