@@ -14,17 +14,18 @@ class sound_get_all(Resource):
 	def get(self): #Get all sound data files in server
 		return jsonify({'SoundDatas': [SoundData.query.get_or_404(Sound.id).export_data() \
 										for Sound in SoundData.query.all()]})
+	def post(self):
+		new_sound_data = SoundData()
+		new_sound_data.import_metadata(request) #Pass flask request object to model
+		db.session.add(new_sound_data)
+		db.session.commit()
+		return jsonify(new_sound_data.export_data())
 
 class sound_metadata(Resource):
 	def get(self, id): #get single metadata, then return marshalled object
 		return jsonify(SoundData.query.get_or_404(id).export_data())
 
-	def post(self, id):
-		new_sound_data = SoundData()
-		new_sound_data.import_metadata(request) #Pass flask request object to model
-		db.session.add(new_sound_data)
-		db.session.commit()
-		return json.dumps({'Date': str(new_sound_data.get_date())}), 201
+
 
 class serve_file(Resource):
 	def get(self, filename):
