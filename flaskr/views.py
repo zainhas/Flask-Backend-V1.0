@@ -76,7 +76,8 @@ class analyze_sound_file(Resource):
 		#get sound file uri
 		#send data to ml function
 		#when processing is finished return
-		pass
+		result = 1
+		return jsonify({'result':result})
 
 #Flask-Restful Api add URL Redirect
 api.add_resource(sound_get_all, '/api/v1_0/soundmetadatas')
