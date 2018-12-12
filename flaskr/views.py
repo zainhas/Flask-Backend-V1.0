@@ -25,8 +25,6 @@ class sound_metadata(Resource):
 	def get(self, id): #get single metadata, then return marshalled object
 		return jsonify(SoundData.query.get_or_404(id).export_data())
 
-
-
 class serve_file(Resource):
 	def get(self, filename):
 		path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
@@ -69,7 +67,7 @@ class sound_file(Resource):
 			sound_file.file_uri = filename
 			db.session.add(sound_file) #Update the SQL Data field for file URI
 			db.session.commit()
-			return ('', 204) #Return No Content To Return
+			return (204) #Return No Content To Return
 		abort(404)
 
 #Analysis API's
